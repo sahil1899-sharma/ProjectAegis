@@ -1,0 +1,203 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#030a16] text-slate-100 antialiased flex flex-col min-h-screen selection:bg-cyan-500/30;
+    font-family: var(--font-rajdhani), sans-serif;
+    background-color: #030a16;
+    background-image:
+      linear-gradient(to bottom, rgba(3, 10, 22, 0.6) 0%, rgba(3, 10, 22, 0.95) 100%),
+      url('/bg-hud.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    background-blend-mode: overlay;
+  }
+}
+
+@layer utilities {
+  .font-mono {
+    font-family: var(--font-jetbrains-mono), monospace;
+  }
+
+  .glass-panel {
+    @apply bg-[#050f24]/60 backdrop-blur-3xl border border-cyan-500/20 rounded-xl relative overflow-hidden;
+    box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .glass-panel::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-br from-cyan-400/[0.04] to-transparent pointer-events-none;
+  }
+
+  .hud-corner-tl {
+    @apply absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-cyan-500/50 pointer-events-none;
+  }
+
+  .hud-corner-tr {
+    @apply absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-cyan-500/50 pointer-events-none;
+  }
+
+  .hud-corner-bl {
+    @apply absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-cyan-500/50 pointer-events-none;
+  }
+
+  .hud-corner-br {
+    @apply absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-cyan-500/50 pointer-events-none;
+  }
+
+  .glow-cyan {
+    box-shadow: 0 0 25px 2px rgba(6, 182, 212, 0.4);
+  }
+
+  .glow-red {
+    box-shadow: 0 0 30px 5px rgba(239, 68, 68, 0.5);
+  }
+
+  .text-glow-cyan {
+    text-shadow: 0 0 10px rgba(6, 182, 212, 0.6);
+  }
+
+  .text-glow-red {
+    text-shadow: 0 0 10px rgba(239, 68, 68, 0.8);
+  }
+
+  .pulse-border-red {
+    animation: pulseBorderRed 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pulseBorderRed {
+
+    0%,
+    100% {
+      border-color: rgba(220, 38, 38, 0.4);
+      box-shadow: 0 0 15px rgba(220, 38, 38, 0.2);
+    }
+
+    50% {
+      border-color: rgba(239, 68, 68, 1);
+      box-shadow: 0 0 30px rgba(239, 68, 68, 0.6);
+    }
+  }
+
+  .bg-pulse-red {
+    animation: bgPulseRed 2s ease-in-out infinite;
+  }
+
+  @keyframes bgPulseRed {
+
+    0%,
+    100% {
+      background-color: rgba(127, 29, 29, 0.05);
+    }
+
+    50% {
+      background-color: rgba(239, 68, 68, 0.15);
+    }
+  }
+
+  /* Matrix-like console scanline effect */
+  .scanline {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scanline::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.2));
+    background-size: 100% 4px;
+    z-index: 50;
+    pointer-events: none;
+    animation: scan 10s linear infinite;
+  }
+
+  @keyframes scan {
+    0% {
+      background-position: 0 0;
+    }
+
+    100% {
+      background-position: 0 100vh;
+    }
+  }
+
+  /* Radar Sweep Animation */
+  .animate-radar {
+    animation: radar-spin 4s linear infinite;
+  }
+
+  @keyframes radar-spin {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* HUD Reticle Rotate */
+  .animate-reticle {
+    animation: reticle-spin 20s linear infinite;
+  }
+
+  .animate-reticle-reverse {
+    animation: reticle-spin-reverse 25s linear infinite;
+  }
+
+  @keyframes reticle-spin {
+    from {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+
+  @keyframes reticle-spin-reverse {
+    from {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+
+    to {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+  }
+
+  /* Subtle glitch effect for text */
+  .glitch-text {
+    animation: text-glitch 4s infinite linear alternate-reverse;
+  }
+
+  @keyframes text-glitch {
+
+    0%,
+    98%,
+    100% {
+      transform: translate(0);
+      opacity: 1;
+      text-shadow: none;
+    }
+
+    99% {
+      transform: translate(-2px, 1px);
+      opacity: 0.8;
+      text-shadow: 2px 0 rgba(6, 182, 212, 0.5), -2px 0 rgba(239, 68, 68, 0.5);
+    }
+
+    99.5% {
+      transform: translate(2px, -1px);
+      opacity: 0.9;
+      text-shadow: 2px 0 rgba(239, 68, 68, 0.5), -2px 0 rgba(6, 182, 212, 0.5);
+    }
+  }
+}
